@@ -5,7 +5,7 @@
 
 class LoContainer : LoBase {
   private:
-    std::vector<LoBase&> children;
+    std::vector<LoBase> children;
 
   public:
     LoContainer();
@@ -15,7 +15,6 @@ class LoContainer : LoBase {
     LoBase &GetChildAt(int index);
     void InsertChildAt(LoBase &obj, int index);
     void AppendChild(LoBase &obj);
-    void Rearange(std::function<int> compare_fn);
 
     void Draw();
     void OnClick(Vector2 mouse, MouseButtons b);

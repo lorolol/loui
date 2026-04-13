@@ -26,7 +26,7 @@ class LoBase {
     std::function<void (Vector2 m_pos, void *arg)> *on_hover;
 
   public:
-    LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)]);
+    LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name);
     virtual ~LoBase() = default;
 
     std::string &GetName();
