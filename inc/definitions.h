@@ -9,7 +9,7 @@ enum class MouseButtons {
   Len
 };
 
-enum class Pad {
+enum class Pad : int {
   Top,
   Bottom,
   Left,

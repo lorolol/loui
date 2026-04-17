@@ -8,6 +8,8 @@
 
 class LoBase {
   private:
+    LoBase *parent;
+
     std::string name;
 
     float x;
@@ -20,20 +22,17 @@ class LoBase {
 
     Align::Horizontal align_h;
     Align::Vertical align_v;
-
-    std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> *on_click;
-    std::function<void (Vector2 m_pos, float s, void *arg)> *on_scroll;
-    std::function<void (Vector2 m_pos, void *arg)> *on_hover;
-
+    
   public:
-    LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name);
+    LoBase(LoBase *parent, float pad[static_cast<int>(Pad::Len)], std::string &name);
+    LoBase(LoBase *parent, std::string &name);
     virtual ~LoBase() = default;
-
+    
     std::string &GetName();
-
+    
     float GetPosX();
     float GetPosY();
-
+    
     float GetWidth();
     float GetHeight();
     
@@ -42,12 +41,20 @@ class LoBase {
     Align::Horizontal GetAlignmentHorizontal();
     Align::Vertical GetAlignmentVertical();
   protected:
+    std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> *on_click;
+    std::function<void (Vector2 m_pos, float s, void *arg)> *on_scroll;
+    std::function<void (Vector2 m_pos, void *arg)> *on_hover;
+    
+    LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name);
+
+    
+  public:
     void SetPosX(float x);
     void SetPosY(float y);
 
     void SetWidth(float width);
     void SetHeight(float height);
-  public:
+    bool IsInside(Vector2 point);
     void SetName(std::string &name);
 
 
@@ -56,7 +63,7 @@ class LoBase {
     void SetAlignmentHorizontal(Align::Horizontal alignment);
     void SetAlignmentVertical(Align::Vertical alignment);
 
-    void HandleSignal(LoSignal sig);
+    void HandleSignal(LoSignal &sig);
 
     void SetOnClick(std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> &fn);
     void SetOnScroll(std::function<void (Vector2 m_pos, float s, void *arg)> &fn);
