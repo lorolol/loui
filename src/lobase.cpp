@@ -10,8 +10,8 @@ LoBase::LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pa
   this->on_scroll = nullptr;
 }
 
-LoBase::LoBase(LoBase *parent, float pad[static_cast<int>(Pad::Len)], std::string &name) {
-  this->parent = parent; this->name = name;
+LoBase::LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name) {
+  this->name = name;
   std::copy(&pad[0], &pad[static_cast<int>(Pad::Len)], this->pad);
 
   this->on_click = nullptr;
@@ -19,8 +19,7 @@ LoBase::LoBase(LoBase *parent, float pad[static_cast<int>(Pad::Len)], std::strin
   this->on_scroll = nullptr;
 }
 
-LoBase::LoBase(LoBase *parent, std::string &name) {
-  this->parent = parent;
+LoBase::LoBase(std::string &name) {
   this->name = name;
   std::fill(&this->pad[0], &this->pad[static_cast<int>(Pad::Len)], 0.0);
 
@@ -52,6 +51,14 @@ float LoBase::GetHeight() {
 
 float LoBase::GetPadding(Pad side) {
   return this->pad[static_cast<int>(side)];
+}
+
+void LoBase::SetParent(LoBase *parent) {
+  this->parent = parent;
+}
+
+LoBase *LoBase::GetParent() {
+  return this->parent;
 }
 
 Align::Horizontal LoBase::GetAlignmentHorizontal() {
@@ -101,20 +108,6 @@ void LoBase::SetAlignmentHorizontal(Align::Horizontal alignment) {
 
 void LoBase::SetAlignmentVertical(Align::Vertical alignment) {
   this->align_v = alignment;
-}
-
-void LoBase::HandleSignal(LoSignal &sig) {
-  switch (sig.type) {
-    case LoSignal::Type::Clicked:
-      this->OnClick(sig.mouse_pos, sig.button);
-      break;
-    case LoSignal::Type::Hover:
-      this->OnHover(sig.mouse_pos);
-      break;
-    case LoSignal::Type::Scroll:
-      this->OnScroll(sig.mouse_pos, sig.scroll);
-      break;
-  }
 }
 
 void LoBase::SetOnClick(std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> &fn) {

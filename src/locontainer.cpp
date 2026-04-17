@@ -3,24 +3,32 @@
 LoContainer::LoContainer(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name, std::vector<LoBase *> objs) : 
 LoBase(x, y, w, h, pad, name) {
   if (objs.size() != 0) {
+    for (auto &i : objs) {
+      i->SetParent(this);
+    }
     this->children.insert(this->children.end(), objs.begin(), objs.end());
   }
 }
 
-LoContainer::LoContainer(LoContainer *parent, float pad[static_cast<int>(Pad::Len)], std::string &name, std::vector<LoBase *> objs) :
-LoBase(parent, pad, name) {
+LoContainer::LoContainer(float pad[static_cast<int>(Pad::Len)], std::string &name, std::vector<LoBase *> objs) :
+LoBase(pad, name) {
   if (objs.size() != 0) {
+    for (auto &i : objs) {
+      i->SetParent(this);
+    }
     this->children.insert(this->children.end(), objs.begin(), objs.end());
   }
 }
 
-LoContainer::LoContainer(LoContainer *parent, std::string &name, std::vector<LoBase *> objs) :
-LoBase(parent, name) {
+LoContainer::LoContainer(std::string &name, std::vector<LoBase *> objs) :
+LoBase(name) {
   if (objs.size() != 0) {
+    for (auto &i : objs) {
+      i->SetParent(this);
+    }
     this->children.insert(this->children.end(), objs.begin(), objs.end());
   }
 }
-
 
 LoBase *LoContainer::GetChildAt(int index) {
   if (index >= this->children.size()) return nullptr;
@@ -29,14 +37,19 @@ LoBase *LoContainer::GetChildAt(int index) {
 
 void LoContainer::InsertChildAt(LoBase *obj, int index) {
   if (index >= this->children.size()) return;
+  obj->SetParent(this);
   this->children.insert(this->children.begin() + index, 1, obj);
 }
 
 void LoContainer::AppendChild(LoBase *obj) {
+  obj->SetParent(this);
   this->children.push_back(obj);
 }
 
 void LoContainer::AppendChildren(std::vector<LoBase *> objs) {
+  for (auto &i : objs) {
+    i->SetParent(this);
+  }
   this->children.insert(this->children.end(), objs.begin(), objs.end());
 }
 
@@ -46,35 +59,20 @@ void LoContainer::Draw() {
   }
 }
 
-void LoContainer::OnClick(Vector2 mouse, MouseButtons b) {
-  if (this->on_click != nullptr) {
-    (*this->on_click)(mouse, b, nullptr);
+void LoContainer::HandleSignal(LoSignal &sig) {
+  if (sig.button != MouseButtons::None && this->on_click != nullptr) {
+    (*this->on_click)(sig.mouse_pos, sig.button, nullptr);
   }
-  for (auto &i : this->children) {
-    if (i->IsInside(mouse)) {
-      i->OnClick(mouse, b);
-    }
-  }
-}
-
-void LoContainer::OnScroll(Vector2 mouse, float scroll) {
-  if (this->on_scroll != nullptr) {
-    (*this->on_scroll)(mouse, scroll, nullptr);
-  }
-  for (auto &i : this->children) {
-    if (i->IsInside(mouse)) {
-      i->OnScroll(mouse, scroll);
-    }
-  }
-}
-
-void LoContainer::OnHover(Vector2 mouse) {
   if (this->on_hover != nullptr) {
-    (*this->on_hover)(mouse, nullptr);
+    (*this->on_hover)(sig.mouse_pos, nullptr);
   }
+  if (sig.scroll != 0 && this->on_hover != nullptr) {
+    (*this->on_scroll)(sig.mouse_pos, sig.scroll, nullptr);
+  }
+
   for (auto &i : this->children) {
-    if (i->IsInside(mouse)) {
-      i->OnHover(mouse);
+    if (i->IsInside(sig.mouse_pos)) {
+      i->HandleSignal(sig);
     }
   }
 }

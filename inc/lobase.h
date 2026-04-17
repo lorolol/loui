@@ -2,9 +2,9 @@
 #include <functional>
 #include <string>
 
+#include "raymath.h"
 #include "definitions.h"
 #include "losignal.h"
-#include "raymath.h"
 
 class LoBase {
   private:
@@ -24,8 +24,8 @@ class LoBase {
     Align::Vertical align_v;
     
   public:
-    LoBase(LoBase *parent, float pad[static_cast<int>(Pad::Len)], std::string &name);
-    LoBase(LoBase *parent, std::string &name);
+    LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name);
+    LoBase(std::string &name);
     virtual ~LoBase() = default;
     
     std::string &GetName();
@@ -37,6 +37,9 @@ class LoBase {
     float GetHeight();
     
     float GetPadding(Pad side);
+
+    void SetParent(LoBase *parent);
+    LoBase *GetParent();
     
     Align::Horizontal GetAlignmentHorizontal();
     Align::Vertical GetAlignmentVertical();
@@ -63,14 +66,11 @@ class LoBase {
     void SetAlignmentHorizontal(Align::Horizontal alignment);
     void SetAlignmentVertical(Align::Vertical alignment);
 
-    void HandleSignal(LoSignal &sig);
-
     void SetOnClick(std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> &fn);
     void SetOnScroll(std::function<void (Vector2 m_pos, float s, void *arg)> &fn);
     void SetOnHover(std::function<void (Vector2 m_pos, void *arg)> &fn);
 
+    virtual void Update(LoSignal &sig) = 0;
     virtual void Draw() = 0;
-    virtual void OnClick(Vector2 mouse, MouseButtons b) = 0;
-    virtual void OnScroll(Vector2 mouse, float scroll) = 0;
-    virtual void OnHover(Vector2 mouse) = 0;
+    virtual void HandleSignal(LoSignal &sig) = 0;
 };

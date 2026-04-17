@@ -6,7 +6,8 @@ enum class MouseButtons {
   Middle,
   M4,
   M5,
-  Len
+  Len,
+  None
 };
 
 enum class Pad : int {

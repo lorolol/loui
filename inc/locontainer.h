@@ -9,8 +9,8 @@ class LoContainer : public LoBase {
     // only for top level containers like Window
     LoContainer(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name, std::vector<LoBase *> objs = {});
   public:
-    LoContainer(LoContainer *parent, float pad[static_cast<int>(Pad::Len)], std::string &name, std::vector<LoBase *> objs = {});
-    LoContainer(LoContainer *parent, std::string &name, std::vector<LoBase *> objs = {});
+    LoContainer(float pad[static_cast<int>(Pad::Len)], std::string &name, std::vector<LoBase *> objs = {});
+    LoContainer(std::string &name, std::vector<LoBase *> objs = {});
 
     virtual ~LoContainer() = default;
 
@@ -24,5 +24,5 @@ class LoContainer : public LoBase {
     void OnScroll(Vector2 mouse, float scroll);
     void OnHover(Vector2 mouse);
 
-    virtual void Update() = 0;
+    void HandleSignal(LoSignal &sig);
 };

@@ -1,15 +1,25 @@
 #include "lowindow.h"
 
 void LoWindow::RlInitWindow() {
-  // unsigned int flags = FLAG_VSYNC_HINT | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_RESIZABLE;
-  // SetConfigFlags(flags);
+  unsigned int flags = FLAG_VSYNC_HINT | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT;
+  SetConfigFlags(flags);
   this->main = new std::thread([this](){this->WindowLoop();});
 }
 
 void LoWindow::WindowLoop() {
   InitWindow(this->GetWidth(), this->GetHeight(), this->GetName().c_str());
   for (;;) {
-    this->Update();
+    Vector2 m_pos = GetMousePosition();
+    float scroll = GetMouseWheelMove();
+    bool m_btn[3] {IsMouseButtonPressed(MOUSE_BUTTON_LEFT), 
+      IsMouseButtonPressed(MOUSE_BUTTON_RIGHT), 
+      IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE)};
+    
+    LoSignal sig = {};
+    if (m_btn[static_cast<int>(MouseButtons::Left)]) {
+      
+    } 
+    this->Update(sig);
     BeginDrawing();
       ClearBackground(this->bg);
       this->Draw();
@@ -31,8 +41,7 @@ LoContainer(0, 0, w, h, (float[4]){0.0, 0.0, 0.0, 0.0}, name, objs) {
 }
 
 
-void LoWindow::Update() {
-  printf("pos x %f\n", this->GetPosX());
+void LoWindow::Update(LoSignal &sig) {
   DrawRectangleLines(this->GetPosX() + this->GetPadding(Pad::Left),
                     this->GetPosY() + this->GetPadding(Pad::Top),
                     this->GetWidth() - (this->GetPadding(Pad::Left) + this->GetPadding(Pad::Right)),
@@ -40,8 +49,9 @@ void LoWindow::Update() {
   for (auto &i : this->children) {
     i->SetPosX(this->GetPosX() + this->GetPadding(Pad::Left));
     i->SetPosY(this->GetPosY() + this->GetPadding(Pad::Top));
-
+    
     i->SetWidth(this->GetWidth() - (this->GetPadding(Pad::Left) + this->GetPadding(Pad::Right)));
     i->SetHeight(this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom)));
+    i->Update(sig);
   }
 }
