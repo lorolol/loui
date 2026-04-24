@@ -3,13 +3,7 @@
 #include "definitions.h"
 #include "raymath.h"
 
-struct LoSignal {
-  Vector2 mouse_pos;
-  MouseButtons button;
-  float scroll;
-};
-
-enum class State {
+enum class MouseState {
   M1_Pressed,
   M2_Pressed,
   M3_Pressed,
@@ -20,7 +14,7 @@ enum class State {
   None
 };
 
-enum class Event {
+enum class MouseEvent {
   M1_Clicked,
   M2_Clicked,
   M3_Clicked,
@@ -31,6 +25,13 @@ enum class Event {
   M3_Released,
   M4_Released,
   M5_Released,
+  Scroll,
   Len,
   None
+};
+
+struct LoSignal {
+  Vector2 mouse_pos;
+  MouseState mouse_state;
+  float scroll;
 };
