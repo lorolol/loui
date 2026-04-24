@@ -22,6 +22,9 @@ class LoBase {
 
     Align::Horizontal align_h;
     Align::Vertical align_v;
+
+    State state;
+    Event event;
     
   public:
     LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name);

@@ -16,7 +16,7 @@ void LoWindow::WindowLoop() {
       IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE)};
     
     LoSignal sig = {};
-    if (m_btn[static_cast<int>(MouseButtons::Left)]) {
+    if (m_btn[static_cast<int>(MouseButtons::M1)]) {
       
     } 
     this->Update(sig);
