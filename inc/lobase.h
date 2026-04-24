@@ -22,9 +22,6 @@ class LoBase {
 
     Align::Horizontal align_h;
     Align::Vertical align_v;
-
-    State state;
-    Event event;
     
   public:
     LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name);
@@ -46,14 +43,17 @@ class LoBase {
     
     Align::Horizontal GetAlignmentHorizontal();
     Align::Vertical GetAlignmentVertical();
+
   protected:
     std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> *on_click;
     std::function<void (Vector2 m_pos, float s, void *arg)> *on_scroll;
     std::function<void (Vector2 m_pos, void *arg)> *on_hover;
     
+    MouseState state;
+    MouseEvent event;
+    
     LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name);
 
-    
   public:
     void SetPosX(float x);
     void SetPosY(float y);

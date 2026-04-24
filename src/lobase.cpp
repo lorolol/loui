@@ -8,6 +8,8 @@ LoBase::LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pa
   this->on_click = nullptr;
   this->on_hover = nullptr;
   this->on_scroll = nullptr;
+  this->state = MouseState::None;
+  this->event = MouseEvent::None;
 }
 
 LoBase::LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name) {
@@ -17,6 +19,8 @@ LoBase::LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name) {
   this->on_click = nullptr;
   this->on_hover = nullptr;
   this->on_scroll = nullptr;
+  this->state = MouseState::None;
+  this->event = MouseEvent::None;
 }
 
 LoBase::LoBase(std::string &name) {
@@ -26,6 +30,8 @@ LoBase::LoBase(std::string &name) {
   this->on_click = nullptr;
   this->on_hover = nullptr;
   this->on_scroll = nullptr;
+  this->state = MouseState::None;
+  this->event = MouseEvent::None;
 }
 
 
@@ -121,4 +127,61 @@ void LoBase::SetOnScroll(std::function<void (Vector2 m_pos, float s, void *arg)>
 
 void LoBase::SetOnHover(std::function<void (Vector2 m_pos, void *arg)> fn) {
   this->on_hover = new std::function<void (Vector2 m_pos, void *arg)>(fn);
+}
+
+void LoBase::UpdateStateEvent(LoSignal &sig) {
+  if (!this->IsInside(sig.mouse_pos)) {
+    this->state = MouseState::None;
+    this->event = MouseEvent::None;
+    return;
+  }
+
+  if (sig.mouse_state != this->state) {
+    MouseState curr_state = this->state;
+    this->state = sig.mouse_state;
+
+    if (this->state == MouseState::Hover) {
+      switch(curr_state) {
+        case MouseState::M1_Pressed:
+          this->event = MouseEvent::M1_Released;
+          break;
+        case MouseState::M2_Pressed:
+          this->event = MouseEvent::M2_Released;
+          break;
+        case MouseState::M3_Pressed:
+          this->event = MouseEvent::M3_Released;
+          break;
+        case MouseState::M4_Pressed:
+          this->event = MouseEvent::M4_Released;
+          break;
+        case MouseState::M5_Pressed:
+          this->event = MouseEvent::M5_Released;
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch(this->state) {
+        case MouseState::M1_Pressed:
+          this->event = MouseEvent::M1_Clicked;
+          break;
+        case MouseState::M2_Pressed:
+          this->event = MouseEvent::M2_Clicked;
+          break;
+        case MouseState::M3_Pressed:
+          this->event = MouseEvent::M3_Clicked;
+          break;
+        case MouseState::M4_Pressed:
+          this->event = MouseEvent::M4_Clicked;
+          break;
+        case MouseState::M5_Pressed:
+          this->event = MouseEvent::M5_Clicked;
+          break;
+        default:
+          break;
+      }
+    }
+  } else {
+    this->event = MouseEvent::None;
+  }
 }
