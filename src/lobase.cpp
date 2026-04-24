@@ -110,15 +110,15 @@ void LoBase::SetAlignmentVertical(Align::Vertical alignment) {
   this->align_v = alignment;
 }
 
-void LoBase::SetOnClick(std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> &fn) {
+void LoBase::SetOnClick(std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> fn) {
   this->on_click = new std::function<void (Vector2 m_pos, MouseButtons b, void *arg)>(fn);
 }
 
-void LoBase::SetOnScroll(std::function<void (Vector2 m_pos, float s, void *arg)> &fn) {
+void LoBase::SetOnScroll(std::function<void (Vector2 m_pos, float s, void *arg)> fn) {
   this->on_scroll = new std::function<void (Vector2 m_pos, float s, void *arg)>(fn);
 
 }
 
-void LoBase::SetOnHover(std::function<void (Vector2 m_pos, void *arg)> &fn) {
+void LoBase::SetOnHover(std::function<void (Vector2 m_pos, void *arg)> fn) {
   this->on_hover = new std::function<void (Vector2 m_pos, void *arg)>(fn);
 }

@@ -69,9 +69,11 @@ class LoBase {
     void SetAlignmentHorizontal(Align::Horizontal alignment);
     void SetAlignmentVertical(Align::Vertical alignment);
 
-    void SetOnClick(std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> &fn);
-    void SetOnScroll(std::function<void (Vector2 m_pos, float s, void *arg)> &fn);
-    void SetOnHover(std::function<void (Vector2 m_pos, void *arg)> &fn);
+    void SetOnClick(std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> fn);
+    void SetOnScroll(std::function<void (Vector2 m_pos, float s, void *arg)> fn);
+    void SetOnHover(std::function<void (Vector2 m_pos, void *arg)> fn);
+  
+    void UpdateStateEvent(LoSignal &sig);
 
     virtual void Update(LoSignal &sig) = 0;
     virtual void Draw() = 0;
