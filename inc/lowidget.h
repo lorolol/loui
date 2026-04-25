@@ -11,9 +11,8 @@ class LoWidget : public LoBase {
 
   public:
     LoWidget(float pad[static_cast<int>(Pad::Len)], std::string name,
-    float min_width, float max_width, float min_height, float max_height);
-    LoWidget(std::string name, float min_width, float max_width, float min_height, float max_height);
-    LoWidget(float pad[static_cast<int>(Pad::Len)], std::string name);
+    float min_width = 0.0, float max_width = 0.0, float min_height = 0.0, float max_height = 0.0);
+    LoWidget(std::string name, float min_width = 0.0, float max_width = 0.0, float min_height = 0.0, float max_height = 0.0);
 
     void SetMinWidth(float width);
     void SetMaxWidth(float width);

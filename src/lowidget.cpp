@@ -16,10 +16,6 @@ LoWidget::LoWidget(std::string name, float min_width, float max_width, float min
   this->min_h = min_height;
   this->max_h = max_height;
 }
-LoWidget::LoWidget(float pad[static_cast<int>(Pad::Len)], std::string name) 
-: LoBase(pad, name) {
-
-}
 
 void LoWidget::SetMinWidth(float width) {
   this->min_w = width;

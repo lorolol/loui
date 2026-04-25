@@ -212,6 +212,8 @@ void LoBase::HandleSignal(LoSignal &sig) {
       case MouseEvent::M1_Released:
         this->OnClick(sig.mouse_pos, MouseButtons::M1);
         break;
+      case MouseEvent::M2_Released:
+        this->OnClick(sig.mouse_pos, MouseButtons::M2);
       default:
         break;
     }
