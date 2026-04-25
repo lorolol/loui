@@ -56,11 +56,11 @@ void LoWindow::Update(LoSignal &sig) {
                     this->GetWidth() - (this->GetPadding(Pad::Left) + this->GetPadding(Pad::Right)),
                     this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom)), RED);
   for (auto &i : this->children) {
-    i->SetPosX(this->GetPosX() + this->GetPadding(Pad::Left));
-    i->SetPosY(this->GetPosY() + this->GetPadding(Pad::Top));
+    i.obj->SetPosX(this->GetPosX() + this->GetPadding(Pad::Left));
+    i.obj->SetPosY(this->GetPosY() + this->GetPadding(Pad::Top));
     
-    i->SetWidth(this->GetWidth() - (this->GetPadding(Pad::Left) + this->GetPadding(Pad::Right)));
-    i->SetHeight(this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom)));
-    i->Update(sig);
+    i.obj->SetWidth(this->GetWidth() - (this->GetPadding(Pad::Left) + this->GetPadding(Pad::Right)));
+    i.obj->SetHeight(this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom)));
+    i.obj->Update(sig);
   }
 }

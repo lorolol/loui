@@ -5,7 +5,11 @@
 
 class LoContainer : public LoBase {
   protected:
-    std::vector<LoBase *> children;
+    struct Child {
+      LoBase* obj;
+      size_t i;
+    };
+    std::vector<Child> children;
     // only for top level containers like Window
     LoContainer(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name, std::vector<LoBase *> objs = {});
   public:
