@@ -75,7 +75,11 @@ class LoBase {
   
     void UpdateStateEvent(LoSignal &sig);
 
+    virtual void OnClick(Vector2 mouse, MouseButtons b);
+    virtual void OnScroll(Vector2 mouse, float scroll);
+    virtual void OnHover(Vector2 mouse);
+
     virtual void Update(LoSignal &sig) = 0;
     virtual void Draw() = 0;
-    virtual void HandleSignal(LoSignal &sig) = 0;
+    virtual void HandleSignal(LoSignal &sig);
 };

@@ -78,44 +78,8 @@ void LoContainer::Draw() {
   }
 }
 
-void LoContainer::OnClick(Vector2 mouse, MouseButtons b) {
-  if (this->on_click != nullptr) {
-    (*this->on_click)(mouse, b, nullptr);
-  }
-}
-
-void LoContainer::OnScroll(Vector2 mouse, float scroll) {
-  if (this->on_scroll != nullptr) {
-    (*this->on_scroll)(mouse, scroll, nullptr);
-  }
-}
-
-void LoContainer::OnHover(Vector2 mouse) {
-  if (this->on_hover != nullptr) {
-    (*this->on_hover)(mouse, nullptr);
-  }
-}
-
 void LoContainer::HandleSignal(LoSignal &sig) {
-  this->UpdateStateEvent(sig);
-
-  if (this->state != MouseState::None) {
-    switch(this->event) {
-      case MouseEvent::M1_Released:
-        this->OnClick(sig.mouse_pos, MouseButtons::M1);
-        break;
-      default:
-        break;
-    }
-  
-    if (sig.scroll != 0.0) {
-      this->OnScroll(sig.mouse_pos, sig.scroll);
-    }
-  
-    if (this->state == MouseState::Hover) {
-      this->OnHover(sig.mouse_pos);
-    }
-  }
+  LoBase::HandleSignal(sig);
 
   for (auto &i : this->children) {
     i.obj->HandleSignal(sig);

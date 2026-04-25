@@ -24,9 +24,6 @@ class LoContainer : public LoBase {
     void AppendChildren(std::vector<LoBase *> objs);
 
     void Draw();
-    virtual void OnClick(Vector2 mouse, MouseButtons b);
-    virtual void OnScroll(Vector2 mouse, float scroll);
-    virtual void OnHover(Vector2 mouse);
 
     void HandleSignal(LoSignal &sig);
 };
