@@ -36,6 +36,7 @@ void LoList::Update(LoSignal &sig) {
                       BLUE);
   }
   for (auto &i : this->children) {
+    if (i.i >= this->max_i) continue;
     i.obj->SetPosX(this->GetPosX() + this->GetPadding(Pad::Left));
     i.obj->SetPosY(this->GetPosY() + this->GetPadding(Pad::Top) + (i.i * item_h));
     
