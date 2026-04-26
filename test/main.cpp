@@ -17,9 +17,10 @@ int main() {
   LoList thang((float[4]){10.0, 10.0, 10.0, 10.0}, dude, 3);
   thang.SetOnClick(OnClick);
 
-  LoTextBox text("gameing", 80);
-  LoTextBox text2("gaming", 80);
+  LoTextBox text("gameing", 20);
+  LoTextBox text2("gaming", 20);
   text.SetText("THIS IS CRAZY");
+  text.SetMaxHeigth(150);
   text2.SetText("CRAZY BALLS");
   int thanger1 {};
   int thanger2 {};
@@ -35,7 +36,7 @@ int main() {
   });
 
   thang.AppendChild(&text);
-  thang.InsertChildAt(&text2, 2);
+  thang.AppendChild(&text2);
   LoWindow thing(800, 600, (float[4]){10.0, 10.0, 10.0, 10.0}, title, GRAY);
   thing.AppendChild(&thang);
   for (;;) {

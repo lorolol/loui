@@ -4,22 +4,17 @@ LoList::LoList(float padding[static_cast<int>(Pad::Len)], std::string &name, int
 LoContainer(padding, name, objs) {
   this->max_i = max_items;
   this->children.reserve(max_items);
-  // this->children.assign(max_items, nullptr);
-
 }
 
 LoList::LoList(std::string &name, int max_items, std::vector<LoBase *> objs) :
 LoContainer(name, objs) {
   this->max_i = max_items;
   this->children.reserve(max_items);
-  // this->children.assign(max_items, nullptr);
 }
 
 void LoList::SetMaxItems(int max_items) {
   this->max_i = max_items;
   this->children.reserve(max_items);
-  // this->children.assign(max_items, nullptr);
-
 }
 
 int LoList::GetMaxItems() {
@@ -27,22 +22,27 @@ int LoList::GetMaxItems() {
 }
 
 void LoList::Update(LoSignal &sig) {
-  float item_h {(this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom)))/this->max_i};
-  for (int i = 0; i < this->max_i; i++) {
-    DrawRectangleLines(this->GetPosX() + this->GetPadding(Pad::Left),
-                      this->GetPosY() + this->GetPadding(Pad::Top) + (i * item_h),
-                      this->GetWidth() - (this->GetPadding(Pad::Left) + this->GetPadding(Pad::Right)),
-                      (this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom))) / max_i, 
-                      BLUE);
-  }
+  float total_space {this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom))};
+  float space_left {total_space};
+
+  auto j = this->children.size() - 1;
   for (auto &i : this->children) {
-    if (i.i >= this->max_i) continue;
+    float item_h {space_left/this->children.size()};
+    if (i.obj->GetMinHeight() > item_h) {
+      item_h = i.obj->GetMinHeight();
+    } else if (i.obj->GetMaxHeight() < item_h && i.obj->GetMaxHeight() != 0) {
+      item_h = i.obj->GetMaxHeight();
+    }
+    if (item_h > space_left) item_h = space_left;
+    if (j == 0) item_h = space_left;
     i.obj->SetPosX(this->GetPosX() + this->GetPadding(Pad::Left));
-    i.obj->SetPosY(this->GetPosY() + this->GetPadding(Pad::Top) + (i.i * item_h));
+    i.obj->SetPosY(this->GetPosY() + this->GetPadding(Pad::Top) + (total_space - space_left));
     
     i.obj->SetWidth(this->GetWidth() - (this->GetPadding(Pad::Left) + this->GetPadding(Pad::Right)));
-    i.obj->SetHeight((this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom))) / max_i);
+    i.obj->SetHeight(item_h);
     i.obj->Update(sig);
-    
+
+    space_left -= item_h;
+    j--;
   }
 }
