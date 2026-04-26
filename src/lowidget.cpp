@@ -3,34 +3,18 @@
 LoWidget::LoWidget(float pad[static_cast<int>(Pad::Len)], std::string name,
 float min_width, float max_width, float min_height, float max_height) 
 : LoBase(pad, name) {
-  this->min_w = min_width;
-  this->max_w = max_width;
-  this->min_h = min_height;
-  this->max_h = max_height;
+  this->SetMinWidth(min_width);
+  this->SetMaxWidth(max_width);
+  this->SetMinHeight(min_height);
+  this->SetMaxHeigth(max_height);
 }
 
 LoWidget::LoWidget(std::string name, float min_width, float max_width, float min_height, float max_height) 
 : LoBase(name) {
-  this->min_w = min_width;
-  this->max_w = max_width;
-  this->min_h = min_height;
-  this->max_h = max_height;
-}
-
-void LoWidget::SetMinWidth(float width) {
-  this->min_w = width;
-}
-
-void LoWidget::SetMaxWidth(float width) {
-  this->max_w = width;
-}
-
-void LoWidget::SetMinHeight(float height) {
-  this->min_h = height;
-}
-
-void LoWidget::SetMaxHeigth(float height) {
-  this->max_h = height;
+  this->SetMinWidth(min_width);
+  this->SetMaxWidth(max_width);
+  this->SetMinHeight(min_height);
+  this->SetMaxHeigth(max_height);
 }
 
 void LoWidget::Draw() {
