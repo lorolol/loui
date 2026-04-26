@@ -107,6 +107,23 @@ void LoBase::SetMaxHeigth(float height) {
   this->max_h = height;
 }
 
+float LoBase::GetMinWidth() {
+  return this->min_w;
+}
+
+float LoBase::GetMaxWidth() {
+  return this->max_w;
+}
+
+float LoBase::GetMinHeight() {
+  return this->min_h;
+}
+
+float LoBase::GetMaxHeight() {
+  return this->max_h;
+}
+
+
 bool LoBase::IsInside(Vector2 point) {
   bool vert {point.y >= this->y + this->pad[static_cast<int>(Pad::Top)] && 
             point.y <= this->y  + this->h - this->pad[static_cast<int>(Pad::Bottom)]};

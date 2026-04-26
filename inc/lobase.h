@@ -62,6 +62,11 @@ class LoBase {
     void SetMinHeight(float height);
     void SetMaxHeigth(float height);
     
+    float GetMinWidth();
+    float GetMaxWidth();
+    float GetMinHeight();
+    float GetMaxHeight();
+    
     bool IsInside(Vector2 point);
     
     std::string &GetName();
