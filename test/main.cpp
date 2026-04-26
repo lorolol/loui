@@ -16,6 +16,7 @@ int main() {
   std::string dude = "what the fuck";
   LoList thang((float[4]){10.0, 10.0, 10.0, 10.0}, dude, 3);
   thang.SetOnClick(OnClick);
+  thang.SetElementPadding(50);
 
   LoTextBox text("gameing", 20);
   LoTextBox text2("gaming", 20);

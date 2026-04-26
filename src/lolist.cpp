@@ -21,6 +21,14 @@ int LoList::GetMaxItems() {
   return this->max_i;
 }
 
+void LoList::SetElementPadding(float padding) {
+  this->e_pad = padding;
+}
+
+float LoList::GetElementPadding() {
+  return this->e_pad;
+}
+
 void LoList::Update(LoSignal &sig) {
   float total_space {this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom))};
   float space_left {total_space};
@@ -42,7 +50,7 @@ void LoList::Update(LoSignal &sig) {
     i.obj->SetHeight(item_h);
     i.obj->Update(sig);
 
-    space_left -= item_h;
+    space_left -= item_h + this->e_pad;
     j--;
   }
 }
