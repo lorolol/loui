@@ -3,6 +3,7 @@
 #include "raylib.h"
 
 #include "lotextbox.h"
+#include "lohelpers.h"
 
 LoTextBox::LoTextBox(float pad[static_cast<int>(Pad::Len)], std::string name,
 float min_width, float max_width, float min_height, float max_height) 
@@ -30,8 +31,9 @@ std::string &LoTextBox::GetText() {
   return this->text;
 }
 
-void LoTextBox::SetFont(std::string path) {
-  this->UpdatePush([this, path](){
+void LoTextBox::SetFont(std::string name, std::string weight) {
+  this->UpdatePush([this, name, weight](){
+    std::string path = ShellExec("fc-list | grep -i \""+ name +"\"" + "| grep \"" + weight + "\" | head -n 1 | awk -F ':' '{print $1}'");
     Font f = LoadFontEx(path.c_str(), this->font_size, NULL, 0);
     if (IsFontValid(f)) {
       UnloadFont(this->font);

@@ -17,7 +17,7 @@ class LoTextBox : public LoWidget{
     void SetText(std::string t);
     std::string &GetText();
 
-    void SetFont(std::string path);
+    void SetFont(std::string name, std::string weight);
     Font &GetFont();
 
     void DrawHover();
