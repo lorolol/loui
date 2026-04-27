@@ -8,18 +8,24 @@
 LoTextBox::LoTextBox(float pad[static_cast<int>(Pad::Len)], std::string name,
 float min_width, float max_width, float min_height, float max_height) 
 : LoWidget(pad, name, min_width, max_width, min_height, max_height) {
-  this->font = GetFontDefault();
+  this->UpdatePush([this]() {
+    this->font = GetFontDefault();
+  });
   this->font_size = 15;
 }
 
 LoTextBox::LoTextBox(std::string name, float min_width, float max_width, float min_height, float max_height)
 : LoWidget(name, min_width, max_width, min_height, max_height) {
-  this->font = GetFontDefault();
+  this->UpdatePush([this]() {
+    this->font = GetFontDefault();
+  });
   this->font_size = 15;
 }
 
 LoTextBox::LoTextBox(std::string name, int font_size) : LoWidget(name) {
-  this->font = GetFontDefault();
+  this->UpdatePush([this]() {
+    this->font = GetFontDefault();
+  });
   this->font_size = font_size;
 }
 
@@ -48,16 +54,47 @@ Font &LoTextBox::GetFont() {
 
 void LoTextBox::DrawHover() {
   DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLUE);
-  DrawTextEx(this->font, this->text.c_str(), (Vector2){this->GetPosX(), this->GetPosY()}, this->font_size, 1, BLUE);
+  DrawTextEx(this->font, this->text.c_str(), this->text_pos, this->font_size, 1, BLUE);
 }
 
 void LoTextBox::DrawClicked() {
   DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLUE);
-  DrawTextEx(this->font, this->text.c_str(), (Vector2){this->GetPosX(), this->GetPosY()}, this->font_size, 1, RED);
+  DrawTextEx(this->font, this->text.c_str(), this->text_pos, this->font_size, 1, RED);
 }
 
 void LoTextBox::DrawRegular() {
   DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLUE);
-  DrawTextEx(this->font, this->text.c_str(), (Vector2){this->GetPosX(), this->GetPosY()}, this->font_size, 1, BLACK);
+  DrawTextEx(this->font, this->text.c_str(), this->text_pos, this->font_size, 1, BLACK);
 }
 
+void LoTextBox::UpdateThis(LoSignal &sig) {
+  Vector2 t_size = MeasureTextEx(this->font, this->text.c_str(), this->font_size, 1);
+
+  switch (this->GetAlignmentHorizontal()) {
+    case Align::Horizontal::Left: 
+      this->text_pos.x = this->GetPosX();
+    break;
+    
+    case Align::Horizontal::Right:
+      this->text_pos.x = this->GetPosX() + this->GetWidth() - t_size.x;
+    break;
+    
+    case Align::Horizontal::Center: 
+      this->text_pos.x = this->GetPosX() + (this->GetWidth() / 2.0) - (t_size.x / 2.0);
+    break;
+  }
+
+  switch (this->GetAlignmentVertical()) {
+    case Align::Vertical::Top:
+      this->text_pos.y = this->GetPosY();
+    break;
+
+    case Align::Vertical::Bottom:
+      this->text_pos.y = this->GetPosY() + this->GetHeight() -  t_size.y;
+    break;
+
+    case Align::Vertical::Center:
+      this->text_pos.y = this->GetPosY() + (this->GetHeight() / 2.0) - (t_size.y / 2.0);
+    break;
+  }
+}

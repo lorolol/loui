@@ -8,6 +8,8 @@ class LoTextBox : public LoWidget{
     std::string text;
     int font_size;
 
+    Vector2 text_pos;
+
   public:
     LoTextBox(float pad[static_cast<int>(Pad::Len)], std::string name,
     float min_width = 0.0, float max_width = 0.0, float min_height = 0.0, float max_height = 0.0);
@@ -23,4 +25,6 @@ class LoTextBox : public LoWidget{
     void DrawHover();
     void DrawClicked();
     void DrawRegular();
+
+    void UpdateThis(LoSignal &sig);
 };

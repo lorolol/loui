@@ -24,6 +24,10 @@ int main() {
   text.SetMaxHeigth(150);
   text2.SetText("CRAZY BALLS");
   text.SetFont("Mononoki Nerd Font", "Regular");
+  text.SetAlignmentHorizontal(Align::Horizontal::Center);
+  text.SetAlignmentVertical(Align::Vertical::Center);
+  text2.SetAlignmentHorizontal(Align::Horizontal::Right);
+  text2.SetAlignmentVertical(Align::Vertical::Bottom);
   int thanger1 {};
   int thanger2 {};
   text.SetOnClick([&thanger1, &text](Vector2 m_pos, MouseButtons b, void * arg) {

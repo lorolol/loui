@@ -5,6 +5,9 @@ LoBase::LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pa
   std::copy(&pad[0], &pad[static_cast<int>(Pad::Len)], this->pad);
   this->parent = nullptr;
 
+  this->align_h = Align::Horizontal::Left;
+  this->align_v = Align::Vertical::Top;
+
   this->on_click = nullptr;
   this->on_hover = nullptr;
   this->on_scroll = nullptr;
@@ -16,6 +19,9 @@ LoBase::LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name) {
   this->name = name;
   std::copy(&pad[0], &pad[static_cast<int>(Pad::Len)], this->pad);
 
+  this->align_h = Align::Horizontal::Left;
+  this->align_v = Align::Vertical::Top;
+
   this->on_click = nullptr;
   this->on_hover = nullptr;
   this->on_scroll = nullptr;
@@ -26,6 +32,9 @@ LoBase::LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name) {
 LoBase::LoBase(std::string &name) {
   this->name = name;
   std::fill(&this->pad[0], &this->pad[static_cast<int>(Pad::Len)], 0.0);
+
+  this->align_h = Align::Horizontal::Left;
+  this->align_v = Align::Vertical::Top;
 
   this->on_click = nullptr;
   this->on_hover = nullptr;
