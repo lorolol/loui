@@ -78,9 +78,7 @@ void LoContainer::Draw() {
   }
 }
 
-void LoContainer::HandleSignal(LoSignal &sig) {
-  LoBase::HandleSignal(sig);
-
+void LoContainer::HandleSignalThis(LoSignal &sig) {
   for (auto &i : this->children) {
     i.obj->HandleSignal(sig);
   }

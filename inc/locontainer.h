@@ -25,5 +25,5 @@ class LoContainer : public LoBase {
 
     void Draw();
 
-    void HandleSignal(LoSignal &sig);
+    void HandleSignalThis(LoSignal &sig);
 };

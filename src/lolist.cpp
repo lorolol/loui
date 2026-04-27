@@ -29,7 +29,7 @@ float LoList::GetElementPadding() {
   return this->e_pad;
 }
 
-void LoList::Update(LoSignal &sig) {
+void LoList::UpdateThis(LoSignal &sig) {
   float total_space {this->GetHeight() - (this->GetPadding(Pad::Top) + this->GetPadding(Pad::Bottom))};
   float space_left {total_space};
 

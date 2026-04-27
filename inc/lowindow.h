@@ -16,5 +16,5 @@ class LoWindow : public LoContainer {
     LoWindow(float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name, Color bg, std::vector<LoBase *> objs = {});
     LoWindow(float w, float h, std::string &name, Color bg, std::vector<LoBase *> objs = {});
     
-    void Update(LoSignal &sig);
+    void UpdateThis(LoSignal &sig);
 };

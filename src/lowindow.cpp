@@ -47,7 +47,7 @@ LoContainer(0, 0, w, h, (float[4]){0.0, 0.0, 0.0, 0.0}, name, objs) {
 }
 
 
-void LoWindow::Update(LoSignal &sig) {
+void LoWindow::UpdateThis(LoSignal &sig) {
   this->SetHeight(GetScreenHeight());
   this->SetWidth(GetScreenWidth());
   this->HandleSignal(sig);

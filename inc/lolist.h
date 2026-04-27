@@ -19,5 +19,5 @@ class LoList : public LoContainer {
     void SetElementPadding(float padding);
     float GetElementPadding();
 
-    void Update(LoSignal &sig);
+    void UpdateThis(LoSignal &sig);
 };
