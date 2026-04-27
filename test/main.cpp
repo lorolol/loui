@@ -23,7 +23,7 @@ int main() {
   text.SetText("THIS IS CRAZY");
   text.SetMaxHeigth(150);
   text2.SetText("CRAZY BALLS");
-  text.SetFont("test_resources/DejaVuSans.ttf");
+  text.SetFont("Mononoki Nerd Font", "Regular");
   int thanger1 {};
   int thanger2 {};
   text.SetOnClick([&thanger1, &text](Vector2 m_pos, MouseButtons b, void * arg) {
