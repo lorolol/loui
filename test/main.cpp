@@ -23,6 +23,7 @@ int main() {
   text.SetText("THIS IS CRAZY");
   text.SetMaxHeigth(150);
   text2.SetText("CRAZY BALLS");
+  text.SetFont("test_resources/DejaVuSans.ttf");
   int thanger1 {};
   int thanger2 {};
   text.SetOnClick([&thanger1, &text](Vector2 m_pos, MouseButtons b, void * arg) {
@@ -35,11 +36,14 @@ int main() {
     else thanger2--;
     text2.SetText(std::to_string(thanger2));
   });
-
+  
   thang.AppendChild(&text);
   thang.AppendChild(&text2);
+  
   LoWindow thing(800, 600, (float[4]){10.0, 10.0, 10.0, 10.0}, title, GRAY);
   thing.AppendChild(&thang);
+
+
   for (;;) {
     sleep(1);
   }
