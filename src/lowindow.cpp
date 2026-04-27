@@ -1,4 +1,5 @@
 #include "lowindow.h"
+#include <unistd.h>
 
 void LoWindow::RlInitWindow() {
   unsigned int flags = FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_RESIZABLE;
@@ -8,7 +9,7 @@ void LoWindow::RlInitWindow() {
 
 void LoWindow::WindowLoop() {
   InitWindow(this->GetWidth(), this->GetHeight(), this->GetName().c_str());
-  for (;;) {
+  while (!WindowShouldClose()) {
     Vector2 m_pos = GetMousePosition();
     float scroll = GetMouseWheelMove();
     bool m_btn[3] {IsMouseButtonDown(MOUSE_BUTTON_LEFT), 
@@ -32,6 +33,7 @@ void LoWindow::WindowLoop() {
 
     EndDrawing();
   }
+  exit(0);
 }
 
 LoWindow::LoWindow(float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name, Color bg, std::vector<LoBase *> objs) : 
