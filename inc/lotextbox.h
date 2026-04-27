@@ -4,6 +4,7 @@
 
 class LoTextBox : public LoWidget{
   private:
+    Font font;
     std::string text;
     int font_size;
 
@@ -16,9 +17,10 @@ class LoTextBox : public LoWidget{
     void SetText(std::string t);
     std::string &GetText();
 
+    void SetFont(std::string path);
+    Font &GetFont();
+
     void DrawHover();
     void DrawClicked();
     void DrawRegular();
-
-    void Update(LoSignal &sig);
 };
