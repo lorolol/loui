@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <string>
+#include <queue>
 
 #include "raymath.h"
 #include "definitions.h"
@@ -28,6 +29,8 @@ class LoBase {
     Align::Horizontal align_h;
     Align::Vertical align_v;
     
+    std::queue<std::function<void (void)>> update_queue;
+    
   protected:
     std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> *on_click;
     std::function<void (Vector2 m_pos, float s, void *arg)> *on_scroll;
@@ -37,13 +40,22 @@ class LoBase {
     MouseEvent event;
     
     LoBase(float x, float y, float w, float h, float pad[static_cast<int>(Pad::Len)], std::string &name);
+    
+    void UpdatePush(std::function<void (void)> &&fn);
+    void UpdateExecute();
+    
+    virtual void OnClick(Vector2 mouse, MouseButtons b);
+    virtual void OnScroll(Vector2 mouse, float scroll);
+    virtual void OnHover(Vector2 mouse);
+    
+    virtual void UpdateThis(LoSignal &sig) {};
+    virtual void HandleSignalThis(LoSignal &sig) {};
+    void UpdateStateEvent(LoSignal &sig);
+    
   public:
     LoBase(float pad[static_cast<int>(Pad::Len)], std::string &name);
     LoBase(std::string &name);
     virtual ~LoBase() = default;
-    
-    void SetParent(LoBase *parent);
-    LoBase *GetParent();
     
     Align::Horizontal GetAlignmentHorizontal();
     Align::Vertical GetAlignmentVertical();
@@ -74,21 +86,17 @@ class LoBase {
     
     float GetPadding(Pad side);
     void SetPadding(Pad side, float pad);
-  
+    
     void SetAlignmentHorizontal(Align::Horizontal alignment);
     void SetAlignmentVertical(Align::Vertical alignment);
-
+    
     void SetOnClick(std::function<void (Vector2 m_pos, MouseButtons b, void *arg)> fn);
     void SetOnScroll(std::function<void (Vector2 m_pos, float s, void *arg)> fn);
     void SetOnHover(std::function<void (Vector2 m_pos, void *arg)> fn);
-  
-    void UpdateStateEvent(LoSignal &sig);
-
-    virtual void OnClick(Vector2 mouse, MouseButtons b);
-    virtual void OnScroll(Vector2 mouse, float scroll);
-    virtual void OnHover(Vector2 mouse);
-
-    virtual void Update(LoSignal &sig) = 0;
+    
+    void SetParent(LoBase *parent);
+    LoBase *GetParent();
+    void Update(LoSignal &sig);
     virtual void Draw() = 0;
-    virtual void HandleSignal(LoSignal &sig);
+    void HandleSignal(LoSignal &sig);
 };

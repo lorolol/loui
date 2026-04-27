@@ -34,6 +34,15 @@ LoBase::LoBase(std::string &name) {
   this->event = MouseEvent::None;
 }
 
+void LoBase::UpdatePush(std::function<void (void)> &&fn) {
+  this->update_queue.push(fn);
+}
+
+void LoBase::UpdateExecute() {
+  (this->update_queue.front())();
+  this->update_queue.pop();
+}
+
 
 std::string &LoBase::GetName() {
   return this->name;
@@ -238,7 +247,7 @@ void LoBase::UpdateStateEvent(LoSignal &sig) {
 }
 
 void LoBase::HandleSignal(LoSignal &sig) {
-    this->UpdateStateEvent(sig);
+  this->UpdateStateEvent(sig);
 
   if (this->state != MouseState::None) {
     switch(this->event) {
@@ -259,4 +268,12 @@ void LoBase::HandleSignal(LoSignal &sig) {
       this->OnHover(sig.mouse_pos);
     }
   }
+  this->HandleSignalThis(sig);
+}
+
+void LoBase::Update(LoSignal &sig) {
+  if (!this->update_queue.empty()) {
+    this->UpdateExecute();
+  }
+  this->UpdateThis(sig);
 }
