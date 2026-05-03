@@ -18,9 +18,12 @@ int main() {
   thang.SetOnClick(OnClick);
   thang.SetElementPadding(50);
 
-  LoTextBox text("gameing", 20);
-  LoTextBox text2("gaming", 20);
+  LoTextBox text("1", 80);
+  LoTextBox text2("2", 20);
+  LoTextBox text3("3", 80);
   text.SetText("THIS IS CRAZY");
+  text3.SetText("ars arst arst arst asrt\nartsarst\narstarts\narstatrs");
+  text3.SetAlignmentHorizontal(Align::Horizontal::Center);
   text.SetMaxHeigth(150);
   text2.SetText("CRAZY BALLS");
   text.SetFont("Mononoki Nerd Font", "Regular");
@@ -43,6 +46,7 @@ int main() {
   
   thang.AppendChild(&text);
   thang.AppendChild(&text2);
+  thang.AppendChild(&text3);
   
   LoWindow thing(800, 600, (float[4]){10.0, 10.0, 10.0, 10.0}, title, GRAY);
   thing.AppendChild(&thang);

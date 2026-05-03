@@ -39,7 +39,7 @@ std::string &LoTextBox::GetText() {
 
 void LoTextBox::SetFont(std::string name, std::string weight) {
   this->UpdatePush([this, name, weight](){
-    std::string path = ShellExec("fc-list | grep -i \""+ name +"\"" + "| grep \"" + weight + "\" | head -n 1 | awk -F ':' '{print $1}'");
+    std::string path = loui::ShellExec("fc-list | grep -i \""+ name +"\"" + "| grep \"" + weight + "\" | head -n 1 | awk -F ':' '{print $1}'");
     Font f = LoadFontEx(path.c_str(), this->font_size, NULL, 0);
     if (IsFontValid(f)) {
       UnloadFont(this->font);
@@ -52,23 +52,51 @@ Font &LoTextBox::GetFont() {
   return this->font;
 }
 
+void LoTextBox::FitText() {
+  Vector2 t_size {MeasureTextEx(this->font, this->text.c_str(), this->font_size, 1)};
+  if (t_size.y > this->GetHeight()) {
+    int lines {};
+    for (auto &i : this->text) {
+      if (i == '\n') lines++;
+    }
+    this->font_size = this->GetHeight() / lines;
+  }
+
+  t_size = MeasureTextEx(this->font, this->text.c_str(), this->font_size, 1);
+  
+  if (t_size.x > this->GetWidth()) {
+    int i {};
+    while (t_size.x > this->GetWidth() && i < 5) {
+      std::size_t past_space {loui::GetClosestSpace(this->text, this->font, this->font_size, this->GetWidth())};
+      if (past_space == std::string::npos) break;
+      this->text[past_space] = '\n';
+      t_size = MeasureTextEx(this->font, this->text.c_str(), this->font_size, 1);
+      i++;
+    }
+
+
+  }
+}
+
+
 void LoTextBox::DrawHover() {
-  DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLUE);
+  DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLACK);
   DrawTextEx(this->font, this->text.c_str(), this->text_pos, this->font_size, 1, BLUE);
 }
 
 void LoTextBox::DrawClicked() {
-  DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLUE);
+  DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLACK);
   DrawTextEx(this->font, this->text.c_str(), this->text_pos, this->font_size, 1, RED);
 }
 
 void LoTextBox::DrawRegular() {
-  DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLUE);
+  DrawRectangleLines(this->GetPosX(), this->GetPosY(), this->GetWidth(), this->GetHeight(), BLACK);
   DrawTextEx(this->font, this->text.c_str(), this->text_pos, this->font_size, 1, BLACK);
 }
 
 void LoTextBox::UpdateThis(LoSignal &sig) {
   Vector2 t_size = MeasureTextEx(this->font, this->text.c_str(), this->font_size, 1);
+  this->FitText();
 
   switch (this->GetAlignmentHorizontal()) {
     case Align::Horizontal::Left: 
